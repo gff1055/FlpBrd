@@ -7,16 +7,19 @@ const canvas = document.querySelector('canvas');
 const contexto = canvas.getContext('2d');
 
 
+
 // [Plano de Fundo]
 const planoDeFundo = {
+
   spriteX: 390,
   spriteY: 0,
   largura: 275,
   altura: 204,
   x: 0,
   y: canvas.height - 204,
+  
   desenha() {
-    contexto.fillStyle = '#70c5ce';
+    contexto.fillStyle = '#70c5ce';                 // Cor do ceu
     contexto.fillRect(0,0, canvas.width, canvas.height)
 
     contexto.drawImage(
@@ -37,14 +40,18 @@ const planoDeFundo = {
   },
 };
 
+
+
 // [Chao]
 const chao = {
+  
   spriteX: 0,
   spriteY: 610,
   largura: 224,
   altura: 112,
   x: 0,
   y: canvas.height - 112,
+  
   desenha() {
     contexto.drawImage(
       sprites,
@@ -64,6 +71,8 @@ const chao = {
   },
 };
 
+
+
 const flappyBird = {
   spriteX: 0,
   spriteY: 0,
@@ -71,25 +80,32 @@ const flappyBird = {
   altura: 24,
   x: 10,
   y: 50,
-  desenha() {
+  gravidade: 0.25,
+  velocidade: 0,
+
+  atualiza(){
+    flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade;
+    flappyBird.y = flappyBird.y + flappyBird.velocidade;
+  },
+
+  desenha(){
     contexto.drawImage(
-      sprites,
-      flappyBird.spriteX, flappyBird.spriteY, // Sprite X, Sprite Y
-      flappyBird.largura, flappyBird.altura, // Tamanho do recorte na sprite
-      flappyBird.x, flappyBird.y,
-      flappyBird.largura, flappyBird.altura,
+      sprites,                                        // Imagem
+      flappyBird.spriteX, flappyBird.spriteY,         // Ponto de referencia da imagem
+      flappyBird.largura, flappyBird.altura,          // Largura e altura do pedaco
+      flappyBird.x, flappyBird.y,                     // Ponto de referencia no canvas
+      flappyBird.largura, flappyBird.altura           // Largura e altura do pedaco
     );
   }
 }
 
-function loop() {
+function loop(){
+  flappyBird.atualiza();
   planoDeFundo.desenha();
   chao.desenha();
   flappyBird.desenha();
-
-  flappyBird.y = flappyBird.y + 1;
-
-  requestAnimationFrame(loop);
+  
+  requestAnimationFrame(loop);                      // Realiza uma animação por meio de uma função específica
 }
 
 loop();
