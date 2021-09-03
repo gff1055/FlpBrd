@@ -145,11 +145,18 @@ const telas = {
   inicio:{
 
     desenha(){
+      planoDeFundo.desenha();
+      chao.desenha();
+      flappyBird.desenha();
       mensagemGetReady.desenha();
     },
 
     atualiza(){
 
+    },
+
+    click(){
+      mudaParaTela(telas.jogo);
     }
   },
 
@@ -171,8 +178,17 @@ const telas = {
 
 
 function loop(){
+  telaAtiva.desenha();
+  telaAtiva.atualiza();
   requestAnimationFrame(loop);                      // Realiza uma animação por meio de uma função específica
 }
+
+
+window.addEventListener('click', function(){
+  if(telaAtiva.click){
+    telaAtiva.click();
+  }
+})
 
 mudaParaTela(telas.inicio);
 loop();
