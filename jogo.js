@@ -8,6 +8,7 @@ const contexto = canvas.getContext('2d');
 
 
 
+
 // [Plano de Fundo]
 const planoDeFundo = {
 
@@ -42,6 +43,30 @@ const planoDeFundo = {
 
 
 
+
+/// [mensagemGetReady] Tela de inicio
+const mensagemGetReady = {
+  sX: 134,
+  sY: 0,
+  w: 174,
+  h: 152,
+  x: (canvas.width / 2) - 174 / 2,
+  y: 50,
+  
+  desenha() {
+    contexto.drawImage(
+      sprites,
+      mensagemGetReady.sX, mensagemGetReady.sY,
+      mensagemGetReady.w, mensagemGetReady.h,
+      mensagemGetReady.x, mensagemGetReady.y,
+      mensagemGetReady.w, mensagemGetReady.h
+    );
+  }
+}
+
+
+
+
 // [Chao]
 const chao = {
   
@@ -73,6 +98,7 @@ const chao = {
 
 
 
+
 const flappyBird = {
   spriteX: 0,
   spriteY: 0,
@@ -99,13 +125,54 @@ const flappyBird = {
   }
 }
 
+
+
+
+let telaAtiva = {}
+
+
+
+
+function mudaParaTela(novaTela){
+  telaAtiva = novaTela
+}
+
+
+
+
+const telas = {
+
+  inicio:{
+
+    desenha(){
+      mensagemGetReady.desenha();
+    },
+
+    atualiza(){
+
+    }
+  },
+
+  jogo:{
+
+    desenha(){
+      planoDeFundo.desenha();
+      chao.desenha();
+      flappyBird.desenha();
+    },
+
+    atualiza(){
+      flappyBird.atualiza();
+    }
+  }
+}
+
+
+
+
 function loop(){
-  flappyBird.atualiza();
-  planoDeFundo.desenha();
-  chao.desenha();
-  flappyBird.desenha();
-  
   requestAnimationFrame(loop);                      // Realiza uma animação por meio de uma função específica
 }
 
+mudaParaTela(telas.inicio);
 loop();
