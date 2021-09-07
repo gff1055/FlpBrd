@@ -108,8 +108,16 @@ const flappyBird = {
   y: 50,
   gravidade: 0.25,
   velocidade: 0,
+  pulo: 4.6,
+
+  pula(){
+      flappyBird.velocidade = - flappyBird.pulo;
+  },
 
   atualiza(){
+    if(fazColisao(flappyBird, chao)){
+
+    }
     flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade;
     flappyBird.y = flappyBird.y + flappyBird.velocidade;
   },
@@ -132,7 +140,11 @@ let telaAtiva = {}
 
 
 
-
+/** 
+ * FUNCAO     : mudaParaTela
+ * OBJETIVO   : Muda a tela atual do jogo
+ * PARAMETRO  : A nova tela a ser exibida
+*/
 function mudaParaTela(novaTela){
   telaAtiva = novaTela
 }
@@ -166,6 +178,10 @@ const telas = {
       planoDeFundo.desenha();
       chao.desenha();
       flappyBird.desenha();
+    },
+
+    click(){
+      flappyBird.pula();
     },
 
     atualiza(){
