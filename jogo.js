@@ -98,45 +98,66 @@ const chao = {
 
 
 
+function fazColisao(flappyBird, chao){
+  const flappyBirdY = flappyBird.y + flappyBird.altura;
+  const chaoY = chao.y;
 
-const flappyBird = {
-  spriteX: 0,
-  spriteY: 0,
-  largura: 33,
-  altura: 24,
-  x: 10,
-  y: 50,
-  gravidade: 0.25,
-  velocidade: 0,
-  pulo: 4.6,
-
-  pula(){
-      flappyBird.velocidade = - flappyBird.pulo;
-  },
-
-  atualiza(){
-    if(fazColisao(flappyBird, chao)){
-
-    }
-    flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade;
-    flappyBird.y = flappyBird.y + flappyBird.velocidade;
-  },
-
-  desenha(){
-    contexto.drawImage(
-      sprites,                                        // Imagem
-      flappyBird.spriteX, flappyBird.spriteY,         // Ponto de referencia da imagem
-      flappyBird.largura, flappyBird.altura,          // Largura e altura do pedaco
-      flappyBird.x, flappyBird.y,                     // Ponto de referencia no canvas
-      flappyBird.largura, flappyBird.altura           // Largura e altura do pedaco
-    );
+  if(flappyBirdY >= chaoY){
+    return true;
   }
+
+  return false;
 }
 
 
 
 
-let telaAtiva = {}
+function criaFlappyBird(){
+  
+  const flappyBird = {
+    spriteX: 0,
+    spriteY: 0,
+    largura: 33,
+    altura: 24,
+    x: 10,
+    y: 50,
+    gravidade: 0.25,
+    velocidade: 0,
+    pulo: 4.6,
+  
+    pula(){
+        flappyBird.velocidade = - flappyBird.pulo;
+    },
+  
+    atualiza(){
+  
+      if(fazColisao(flappyBird, chao)){
+        mudaParaTela(telas.inicio);
+        return;
+      }
+      
+      flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade;
+      flappyBird.y = flappyBird.y + flappyBird.velocidade;
+    },
+  
+    desenha(){
+      contexto.drawImage(
+        sprites,                                        // Imagem
+        flappyBird.spriteX, flappyBird.spriteY,         // Ponto de referencia da imagem
+        flappyBird.largura, flappyBird.altura,          // Largura e altura do pedaco
+        flappyBird.x, flappyBird.y,                     // Ponto de referencia no canvas
+        flappyBird.largura, flappyBird.altura           // Largura e altura do pedaco
+      );
+    }
+  }
+
+  return flappyBird;
+}
+
+
+
+const globais = {};
+let telaAtiva = {};
 
 
 
@@ -155,6 +176,10 @@ function mudaParaTela(novaTela){
 const telas = {
 
   inicio:{
+
+    inicializa(){
+      globais.flappyBird = criaFlappyBird();
+    },
 
     desenha(){
       planoDeFundo.desenha();
