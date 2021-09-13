@@ -167,7 +167,11 @@ let telaAtiva = {};
  * PARAMETRO  : A nova tela a ser exibida
 */
 function mudaParaTela(novaTela){
-  telaAtiva = novaTela
+
+  telaAtiva = novaTela;
+  if(telaAtiva.inicializa){
+    telaAtiva.inicializa();
+  }
 }
 
 
@@ -184,7 +188,7 @@ const telas = {
     desenha(){
       planoDeFundo.desenha();
       chao.desenha();
-      flappyBird.desenha();
+      globais.flappyBird.desenha();
       mensagemGetReady.desenha();
     },
 
@@ -202,15 +206,15 @@ const telas = {
     desenha(){
       planoDeFundo.desenha();
       chao.desenha();
-      flappyBird.desenha();
+      globais.flappyBird.desenha();
     },
 
     click(){
-      flappyBird.pula();
+      globais.flappyBird.pula();
     },
 
     atualiza(){
-      flappyBird.atualiza();
+      globais.flappyBird.atualiza();
     }
   }
 }
