@@ -1,12 +1,17 @@
 console.log('[DevSoutinho] Flappy Bird');
 
-const somHit = new Audio();
-somHit.src = './Efeitos/efeitos_hit.wav';
+// Gerencia o som de HIT
+const somHit  = new Audio();
+somHit.src    = './Efeitos/efeitos_hit.wav';
 
+// Gerencia os sprites
 const sprites = new Image();
-sprites.src = './sprites.png';
+sprites.src   = './sprites.png';
 
+// Gerencia os canvas do jogo
 const canvas = document.querySelector('canvas');
+
+// Gerencia o contexto
 const contexto = canvas.getContext('2d');
 
 
@@ -15,13 +20,17 @@ const contexto = canvas.getContext('2d');
 // [Plano de Fundo]
 const planoDeFundo = {
 
-  spriteX: 390,
-  spriteY: 0,
-  largura: 275,
-  altura: 204,
-  x: 0,
-  y: canvas.height - 204,
+  spriteX:  390,
+  spriteY:  0,
+  largura:  275,
+  altura:   204,
+  x:        0,
+  y:        canvas.height - 204,
   
+  /**
+  * FUNCAO     : desenha
+  * OBJETIVO   : desenha o plano de fundo na tela
+  */
   desenha() {
     contexto.fillStyle = '#70c5ce';                 // Cor do ceu
     contexto.fillRect(0,0, canvas.width, canvas.height)
@@ -51,11 +60,15 @@ const planoDeFundo = {
 const mensagemGetReady = {
   sX: 134,
   sY: 0,
-  w: 174,
-  h: 152,
-  x: (canvas.width / 2) - 174 / 2,
-  y: 50,
+  w:  174,
+  h:  152,
+  x:  (canvas.width / 2) - 174 / 2,
+  y:  50,
   
+  /**
+  * FUNCAO     : desenha
+  * OBJETIVO   : desenha a mensagem "GET READY" na tela
+  */
   desenha() {
     contexto.drawImage(
       sprites,
@@ -73,13 +86,17 @@ const mensagemGetReady = {
 // [Chao]
 const chao = {
   
-  spriteX: 0,
-  spriteY: 610,
-  largura: 224,
-  altura: 112,
-  x: 0,
-  y: canvas.height - 112,
+  spriteX:  0,
+  spriteY:  610,
+  largura:  224,
+  altura:   112,
+  x:        0,
+  y:        canvas.height - 112,
   
+  /**
+  * FUNCAO     : desenha
+  * OBJETIVO   : desenha o chao na tela
+  */
   desenha() {
     contexto.drawImage(
       sprites,
@@ -100,11 +117,19 @@ const chao = {
 };
 
 
-
+/**
+ * FUNCAO     : fazColisao
+ * OBJETIVO   : Testa se houve colisao
+ * PARAMETROS : 
+ * RETORNO    
+ *            : true  (houve colisao)
+ *            : false (nao houve colisao)
+ */
 function fazColisao(flappyBird, chao){
   const flappyBirdY = flappyBird.y + flappyBird.altura;
-  const chaoY = chao.y;
+  const chaoY       = chao.y;
 
+  // Verificando se o FlappyBird esta acima do chao
   if(flappyBirdY >= chaoY){
     return true;
   }
@@ -114,26 +139,42 @@ function fazColisao(flappyBird, chao){
 
 
 
+/**
+ * FUNCAO     : criaFlappyBird
+ * OBJETIVO   : cria um objeto para o FlappyBird
+ * PARAMETROS : 
+ * RETORNO    : O objeto flappyBird
+ */
 
 function criaFlappyBird(){
   
   const flappyBird = {
-    spriteX: 0,
-    spriteY: 0,
-    largura: 33,
-    altura: 24,
-    x: 10,
-    y: 50,
-    gravidade: 0.25,
+    spriteX:    0,
+    spriteY:    0,
+    largura:    33,
+    altura:     24,
+    x:          10,
+    y:          50,
+    gravidade:  0.25,
     velocidade: 0,
-    pulo: 4.6,
+    pulo:       4.6,
   
+    /**
+    * FUNCAO     : pula
+    * OBJETIVO   : fazer o flappyBird pular   
+    */
     pula(){
         flappyBird.velocidade = - flappyBird.pulo;
     },
   
+    /**
+    * FUNCAO     : atualiza
+    * OBJETIVO   : atualizar a posicao do flappyBird   
+    */
     atualiza(){
-  
+      
+      /* Se houver colisao
+      é executado um som de hit e o jogo vai para a tela de inicio */
       if(fazColisao(flappyBird, chao)){
         somHit.play();
         mudaParaTela(telas.inicio);
@@ -141,9 +182,13 @@ function criaFlappyBird(){
       }
       
       flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade;
-      flappyBird.y = flappyBird.y + flappyBird.velocidade;
+      flappyBird.y          = flappyBird.y + flappyBird.velocidade;
     },
   
+    /**
+    * FUNCAO     : desenha
+    * OBJETIVO   : desenha o flappyBird na tela
+    */
     desenha(){
       contexto.drawImage(
         sprites,                                        // Imagem
@@ -161,6 +206,8 @@ function criaFlappyBird(){
 
 
 const globais = {};
+
+// Variavel para gerenciar a tela atual
 let telaAtiva = {};
 
 
@@ -171,7 +218,6 @@ let telaAtiva = {};
  * PARAMETRO  : A nova tela a ser exibida
 */
 function mudaParaTela(novaTela){
-
   telaAtiva = novaTela;
   if(telaAtiva.inicializa){
     telaAtiva.inicializa();
@@ -180,15 +226,23 @@ function mudaParaTela(novaTela){
 
 
 
-
+// Objeto que contem todas as telas do jogo
 const telas = {
 
   inicio:{
 
+    /** 
+    * FUNCAO     : inicializa
+    * OBJETIVO   : Inicializar o Flappy Bird
+    */
     inicializa(){
       globais.flappyBird = criaFlappyBird();
     },
 
+    /** 
+    * FUNCAO     : desenha
+    * OBJETIVO   : Chamar os metodos de desenho de cada elemento da tela de inicio
+    */
     desenha(){
       planoDeFundo.desenha();
       chao.desenha();
@@ -196,10 +250,18 @@ const telas = {
       mensagemGetReady.desenha();
     },
 
+    /** 
+    * FUNCAO     : atualiza
+    * OBJETIVO   : Atualizar cada um dos itens na tela de inicio
+    */
     atualiza(){
 
     },
 
+    /** 
+    * FUNCAO     : click
+    * OBJETIVO   : Acionar a tela de jogo
+    */
     click(){
       mudaParaTela(telas.jogo);
     }
@@ -207,16 +269,28 @@ const telas = {
 
   jogo:{
 
+    /** 
+    * FUNCAO     : desenha
+    * OBJETIVO   : Chamar os metodos de desenho de cada elemento em execucao no jogo
+    */
     desenha(){
       planoDeFundo.desenha();
       chao.desenha();
       globais.flappyBird.desenha();
     },
 
+    /** 
+    * FUNCAO     : click
+    * OBJETIVO   : Acionar o comando para o Flappybird pular
+    */
     click(){
       globais.flappyBird.pula();
     },
 
+    /** 
+    * FUNCAO     : atualiza
+    * OBJETIVO   : Atualizar os itens em execucao no jogo
+    */
     atualiza(){
       globais.flappyBird.atualiza();
     }
@@ -225,7 +299,10 @@ const telas = {
 
 
 
-
+/** 
+* FUNCAO     : loop
+* OBJETIVO   : Aciona a tela atual para comecar a ser renderizada infinitamente
+*/
 function loop(){
   telaAtiva.desenha();
   telaAtiva.atualiza();
@@ -233,7 +310,12 @@ function loop(){
 }
 
 
+/** 
+* FUNCAO     : anonima
+* OBJETIVO   : Acionar o evento de click do mouse na tela atual
+*/
 window.addEventListener('click', function(){
+  /* Testa se a tela atual tem o metodo click */
   if(telaAtiva.click){
     telaAtiva.click();
   }
