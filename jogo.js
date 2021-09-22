@@ -54,7 +54,50 @@ const planoDeFundo = {
 };
 
 
+// [Chao]
+function criaChao() {
 
+  const chao = {
+    spriteX :0,
+    spriteY :610,
+    largura :224,
+    altura  :112,
+    x       :0,
+    y       :canvas.height - 112,
+
+    atualiza(){
+      const movimentoDoChao = 1;
+      const repeteEm        = chao.largura / 2;
+      const movimentacao    = chao.x - movimentoDoChao;
+
+      // console.log('[chao.x]', chao.x);
+      // console.log('[repeteEm]',repeteEm);
+      // console.log('[movimentacao]', movimentacao % repeteEm);
+      
+      chao.x = movimentacao % repeteEm;
+    },
+
+    desenha() {
+      contexto.drawImage(
+        sprites,
+        chao.spriteX, chao.spriteY,
+        chao.largura, chao.altura,
+        chao.x, chao.y,
+        chao.largura, chao.altura,
+      );
+  
+      contexto.drawImage(
+        sprites,
+        chao.spriteX, chao.spriteY,
+        chao.largura, chao.altura,
+        (chao.x + chao.largura), chao.y,
+        chao.largura, chao.altura,
+      );
+    },
+  };
+
+  return chao;
+}
 
 /// [mensagemGetReady] Tela de inicio
 const mensagemGetReady = {
@@ -83,38 +126,7 @@ const mensagemGetReady = {
 
 
 
-// [Chao]
-const chao = {
-  
-  spriteX:  0,
-  spriteY:  610,
-  largura:  224,
-  altura:   112,
-  x:        0,
-  y:        canvas.height - 112,
-  
-  /**
-  * FUNCAO     : desenha
-  * OBJETIVO   : desenha o chao na tela
-  */
-  desenha() {
-    contexto.drawImage(
-      sprites,
-      chao.spriteX, chao.spriteY,
-      chao.largura, chao.altura,
-      chao.x, chao.y,
-      chao.largura, chao.altura,
-    );
 
-    contexto.drawImage(
-      sprites,
-      chao.spriteX, chao.spriteY,
-      chao.largura, chao.altura,
-      (chao.x + chao.largura), chao.y,
-      chao.largura, chao.altura,
-    );
-  },
-};
 
 
 /**
@@ -205,6 +217,9 @@ function criaFlappyBird(){
 
 
 
+
+
+
 const globais = {};
 
 // Variavel para gerenciar a tela atual
@@ -229,6 +244,7 @@ function mudaParaTela(novaTela){
 // Objeto que contem todas as telas do jogo
 const telas = {
 
+  // Tela de inicio
   inicio:{
 
     /** 
@@ -237,6 +253,7 @@ const telas = {
     */
     inicializa(){
       globais.flappyBird = criaFlappyBird();
+      globais.chao = criaChao();
     },
 
     /** 
@@ -245,7 +262,7 @@ const telas = {
     */
     desenha(){
       planoDeFundo.desenha();
-      chao.desenha();
+      globais.chao.desenha();
       globais.flappyBird.desenha();
       mensagemGetReady.desenha();
     },
@@ -255,7 +272,7 @@ const telas = {
     * OBJETIVO   : Atualizar cada um dos itens na tela de inicio
     */
     atualiza(){
-
+      globais.chao.atualiza();
     },
 
     /** 
@@ -267,6 +284,8 @@ const telas = {
     }
   },
 
+
+  // Tela do jogo em acao
   jogo:{
 
     /** 
@@ -296,7 +315,6 @@ const telas = {
     }
   }
 }
-
 
 
 /** 
