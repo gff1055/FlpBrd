@@ -18,109 +18,110 @@ const contexto = canvas.getContext('2d');
 
 
 // [Plano de Fundo]
-const planoDeFundo = {
+const planoDeFundo	= {
 
-  spriteX:  390,
-  spriteY:  0,
-  largura:  275,
-  altura:   204,
-  x:        0,
-  y:        canvas.height - 204,
+					spriteX:  390,
+  					spriteY:  0,
+  					largura:  275,
+					altura:   204,
+					x:        0,
+					y:        canvas.height - 204,
   
-  /**
-  * FUNCAO     : desenha
-  * OBJETIVO   : desenha o plano de fundo na tela
-  */
-  desenha() {
-    contexto.fillStyle = '#70c5ce';                 // Cor do ceu
-    contexto.fillRect(0,0, canvas.width, canvas.height)
+				/**
+				* FUNCAO     : desenha
+				* OBJETIVO   : desenha o plano de fundo na tela
+				*/
+					desenha() {
+					    contexto.fillStyle = '#70c5ce';                 // Cor do ceu
+					    contexto.fillRect(0,0, canvas.width, canvas.height)
 
-    contexto.drawImage(
-      sprites,
-      planoDeFundo.spriteX, planoDeFundo.spriteY,
-      planoDeFundo.largura, planoDeFundo.altura,
-      planoDeFundo.x, planoDeFundo.y,
-      planoDeFundo.largura, planoDeFundo.altura,
-    );
+					    contexto.drawImage(
+							sprites,
+							planoDeFundo.spriteX, planoDeFundo.spriteY,
+					    	planoDeFundo.largura, planoDeFundo.altura,
+    						planoDeFundo.x, planoDeFundo.y,
+    						planoDeFundo.largura, planoDeFundo.altura,
+    					);
 
-    contexto.drawImage(
-      sprites,
-      planoDeFundo.spriteX, planoDeFundo.spriteY,
-      planoDeFundo.largura, planoDeFundo.altura,
-      (planoDeFundo.x + planoDeFundo.largura), planoDeFundo.y,
-      planoDeFundo.largura, planoDeFundo.altura,
-    );
-  },
+    					contexto.drawImage(
+    						sprites,
+    						planoDeFundo.spriteX, planoDeFundo.spriteY,
+    						planoDeFundo.largura, planoDeFundo.altura,
+    						(planoDeFundo.x + planoDeFundo.largura), planoDeFundo.y,
+    						planoDeFundo.largura, planoDeFundo.altura,
+    					);
+  					},
 };
 
 
 // [Chao]
 function criaChao() {
 
-  const chao = {
-    spriteX :0,
-    spriteY :610,
-    largura :224,
-    altura  :112,
-    x       :0,
-    y       :canvas.height - 112,
+	const chao	= {
+    			spriteX :0,
+    			spriteY :610,
+    			largura :224,
+    			altura  :112,
+    			x       :0,
+    			y       :canvas.height - 112,
 
-    atualiza(){
-      const movimentoDoChao = 1;
-      const repeteEm        = chao.largura / 2;
-      const movimentacao    = chao.x - movimentoDoChao;
+    			atualiza(){
+      				const movimentoDoChao = 1;
+      				const repeteEm        = chao.largura / 2;
+      				const movimentacao    = chao.x - movimentoDoChao;
 
-      // console.log('[chao.x]', chao.x);
-      // console.log('[repeteEm]',repeteEm);
-      // console.log('[movimentacao]', movimentacao % repeteEm);
+      				// console.log('[chao.x]', chao.x);
+      				// console.log('[repeteEm]',repeteEm);
+      				// console.log('[movimentacao]', movimentacao % repeteEm);
       
-      chao.x = movimentacao % repeteEm;
-    },
+      				chao.x = movimentacao % repeteEm;
+    			},
 
-    desenha() {
-      contexto.drawImage(
-        sprites,
-        chao.spriteX, chao.spriteY,
-        chao.largura, chao.altura,
-        chao.x, chao.y,
-        chao.largura, chao.altura,
-      );
+    			desenha() {
+      				contexto.drawImage(
+        				sprites,
+        				chao.spriteX, chao.spriteY,
+        				chao.largura, chao.altura,
+        				chao.x, chao.y,
+        				chao.largura, chao.altura,
+      				);
   
-      contexto.drawImage(
-        sprites,
-        chao.spriteX, chao.spriteY,
-        chao.largura, chao.altura,
-        (chao.x + chao.largura), chao.y,
-        chao.largura, chao.altura,
-      );
-    },
-  };
+      				contexto.drawImage(
+        				sprites,
+        				chao.spriteX, chao.spriteY,
+        				chao.largura, chao.altura,
+        				(chao.x + chao.largura), chao.y,
+        				chao.largura, chao.altura,
+      				);
+    			},
+	};
 
-  return chao;
+	return chao;
 }
 
+
 /// [mensagemGetReady] Tela de inicio
-const mensagemGetReady = {
-  sX: 134,
-  sY: 0,
-  w:  174,
-  h:  152,
-  x:  (canvas.width / 2) - 174 / 2,
-  y:  50,
-  
-  /**
-  * FUNCAO     : desenha
-  * OBJETIVO   : desenha a mensagem "GET READY" na tela
-  */
-  desenha() {
-    contexto.drawImage(
-      sprites,
-      mensagemGetReady.sX, mensagemGetReady.sY,
-      mensagemGetReady.w, mensagemGetReady.h,
-      mensagemGetReady.x, mensagemGetReady.y,
-      mensagemGetReady.w, mensagemGetReady.h
-    );
-  }
+const mensagemGetReady 	= {
+						sX: 134,
+  						sY: 0,
+						w:  174,
+						h:  152,
+						x:  (canvas.width / 2) - 174 / 2,
+						y:  50,
+						
+					/**
+					 * FUNCAO     : desenha
+					 * OBJETIVO   : desenha a mensagem "GET READY" na tela
+					 */
+						desenha() {
+							contexto.drawImage(
+								sprites,
+								mensagemGetReady.sX, mensagemGetReady.sY,
+								mensagemGetReady.w, mensagemGetReady.h,
+								mensagemGetReady.x, mensagemGetReady.y,
+								mensagemGetReady.w, mensagemGetReady.h
+							);
+						}
 }
 
 
