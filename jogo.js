@@ -14,114 +14,110 @@ const canvas = document.querySelector('canvas');
 // Gerencia o contexto
 const contexto = canvas.getContext('2d');
 
+let frames = 0;
+
 
 
 
 // [Plano de Fundo]
-const planoDeFundo	= {
+const planoDeFundo = {
 
-					spriteX:  390,
-  					spriteY:  0,
-  					largura:  275,
-					altura:   204,
-					x:        0,
-					y:        canvas.height - 204,
+  spriteX:  390,
+  spriteY:  0,
+  largura:  275,
+  altura:   204,
+  x:        0,
+  y:        canvas.height - 204,
   
-				/**
-				* FUNCAO     : desenha
-				* OBJETIVO   : desenha o plano de fundo na tela
-				*/
-					desenha() {
-					    contexto.fillStyle = '#70c5ce';                 // Cor do ceu
-					    contexto.fillRect(0,0, canvas.width, canvas.height)
+  /**
+  * FUNCAO     : desenha
+  * OBJETIVO   : desenha o plano de fundo na tela
+  */
+  desenha() {
+    contexto.fillStyle = '#70c5ce';                 // Cor do ceu
+    contexto.fillRect(0,0, canvas.width, canvas.height)
 
-					    contexto.drawImage(
-							sprites,
-							planoDeFundo.spriteX, planoDeFundo.spriteY,
-					    	planoDeFundo.largura, planoDeFundo.altura,
-    						planoDeFundo.x, planoDeFundo.y,
-    						planoDeFundo.largura, planoDeFundo.altura,
-    					);
+    contexto.drawImage(
+      sprites,
+      planoDeFundo.spriteX, planoDeFundo.spriteY,
+      planoDeFundo.largura, planoDeFundo.altura,
+      planoDeFundo.x, planoDeFundo.y,
+      planoDeFundo.largura, planoDeFundo.altura,
+    );
 
-    					contexto.drawImage(
-    						sprites,
-    						planoDeFundo.spriteX, planoDeFundo.spriteY,
-    						planoDeFundo.largura, planoDeFundo.altura,
-    						(planoDeFundo.x + planoDeFundo.largura), planoDeFundo.y,
-    						planoDeFundo.largura, planoDeFundo.altura,
-    					);
-  					},
+    contexto.drawImage(
+      sprites,
+      planoDeFundo.spriteX, planoDeFundo.spriteY,
+      planoDeFundo.largura, planoDeFundo.altura,
+      (planoDeFundo.x + planoDeFundo.largura), planoDeFundo.y,
+      planoDeFundo.largura, planoDeFundo.altura,
+    );
+  },
 };
 
 
 // [Chao]
 function criaChao() {
 
-	const chao	= {
-    			spriteX :0,
-    			spriteY :610,
-    			largura :224,
-    			altura  :112,
-    			x       :0,
-    			y       :canvas.height - 112,
+  const chao = {
+    spriteX :0,
+    spriteY :610,
+    largura :224,
+    altura  :112,
+    x       :0,
+    y       :canvas.height - 112,
 
-    			atualiza(){
-      				const movimentoDoChao = 1;
-      				const repeteEm        = chao.largura / 2;
-      				const movimentacao    = chao.x - movimentoDoChao;
+    atualiza(){
+      const movimentoDoChao = 1;
+      const repeteEm        = chao.largura / 2;
+      const movimentacao    = chao.x - movimentoDoChao;
+      chao.x 				= movimentacao % repeteEm;
+    },
 
-      				// console.log('[chao.x]', chao.x);
-      				// console.log('[repeteEm]',repeteEm);
-      				// console.log('[movimentacao]', movimentacao % repeteEm);
-      
-      				chao.x = movimentacao % repeteEm;
-    			},
-
-    			desenha() {
-      				contexto.drawImage(
-        				sprites,
-        				chao.spriteX, chao.spriteY,
-        				chao.largura, chao.altura,
-        				chao.x, chao.y,
-        				chao.largura, chao.altura,
-      				);
+    desenha() {
+      contexto.drawImage(
+        sprites,
+        chao.spriteX, chao.spriteY,
+        chao.largura, chao.altura,
+        chao.x, chao.y,
+        chao.largura, chao.altura,
+      );
   
-      				contexto.drawImage(
-        				sprites,
-        				chao.spriteX, chao.spriteY,
-        				chao.largura, chao.altura,
-        				(chao.x + chao.largura), chao.y,
-        				chao.largura, chao.altura,
-      				);
-    			},
-	};
+      contexto.drawImage(
+        sprites,
+        chao.spriteX, chao.spriteY,
+        chao.largura, chao.altura,
+        (chao.x + chao.largura), chao.y,
+        chao.largura, chao.altura,
+      );
+    },
+  };
 
-	return chao;
+  return chao;
 }
 
-
 /// [mensagemGetReady] Tela de inicio
-const mensagemGetReady 	= {
-						sX: 134,
-  						sY: 0,
-						w:  174,
-						h:  152,
-						x:  (canvas.width / 2) - 174 / 2,
-						y:  50,
-						
-					/**
-					 * FUNCAO     : desenha
-					 * OBJETIVO   : desenha a mensagem "GET READY" na tela
-					 */
-						desenha() {
-							contexto.drawImage(
-								sprites,
-								mensagemGetReady.sX, mensagemGetReady.sY,
-								mensagemGetReady.w, mensagemGetReady.h,
-								mensagemGetReady.x, mensagemGetReady.y,
-								mensagemGetReady.w, mensagemGetReady.h
-							);
-						}
+const mensagemGetReady = {
+  sX: 134,
+  sY: 0,
+  w:  174,
+  h:  152,
+  x:  (canvas.width / 2) - 174 / 2,
+  y:  50,
+  
+  /**
+  * FUNCAO     : desenha
+  * OBJETIVO   : desenha a mensagem "GET READY" na tela
+  */
+  desenha() {
+    contexto.drawImage(
+      sprites,
+      mensagemGetReady.sX, mensagemGetReady.sY,
+      mensagemGetReady.w, mensagemGetReady.h,
+      mensagemGetReady.x, mensagemGetReady.y,
+      mensagemGetReady.w, mensagemGetReady.h
+    );
+  }
 }
 
 
@@ -170,8 +166,17 @@ function criaFlappyBird(){
     y:          50,
     gravidade:  0.25,
     velocidade: 0,
-    pulo:       4.6,
+	pulo:       4.6,
+	
+	movimentos:[
+		{spriteX: 0, spriteY: 0},
+		{spriteX: 0, spriteY: 26},
+		{spriteX: 0, spriteY: 52},
+	],
+
+	frameAtual: 0,
   
+
     /**
     * FUNCAO     : pula
     * OBJETIVO   : fazer o flappyBird pular   
@@ -180,36 +185,47 @@ function criaFlappyBird(){
         flappyBird.velocidade = - flappyBird.pulo;
     },
   
+
     /**
     * FUNCAO     : atualiza
     * OBJETIVO   : atualizar a posicao do flappyBird   
     */
     atualiza(){
       
-      /* Se houver colisao
-      é executado um som de hit e o jogo vai para a tela de inicio */
-      if(fazColisao(flappyBird, chao)){
-        somHit.play();
-        mudaParaTela(telas.inicio);
-        return;
-      }
+    	/* Se houver colisao
+    	é executado um som de hit e o jogo vai para a tela de inicio */
+    	if(fazColisao(flappyBird, globais.chao)){
+        	somHit.play();
+    		mudaParaTela(telas.inicio);
+    		return;
+    	}
       
-      flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade;
-      flappyBird.y          = flappyBird.y + flappyBird.velocidade;
-    },
+    	flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade;
+    	flappyBird.y          = flappyBird.y + flappyBird.velocidade;
+	},
+	
+	atualizaOFrameAtual(){
+		const baseDoIncremento = 1;
+		const incremento = baseDoIncremento + flappyBird.frameAtual;
+		const baseRepeticao = flappyBird.movimentos.length;
+        flappyBird.frameAtual = incremento % baseRepeticao;
+	},
   
+
     /**
     * FUNCAO     : desenha
     * OBJETIVO   : desenha o flappyBird na tela
     */
     desenha(){
-      contexto.drawImage(
-        sprites,                                        // Imagem
-        flappyBird.spriteX, flappyBird.spriteY,         // Ponto de referencia da imagem
-        flappyBird.largura, flappyBird.altura,          // Largura e altura do pedaco
-        flappyBird.x, flappyBird.y,                     // Ponto de referencia no canvas
-        flappyBird.largura, flappyBird.altura           // Largura e altura do pedaco
-      );
+		const {spriteX, spriteY} = flappyBird.movimentos[flappyBird.frameAtual];
+		flappyBird.atualizaOFrameAtual();
+    	contexto.drawImage(
+        	sprites,                                        // Imagem
+        	spriteX, spriteY,         // Ponto de referencia da imagem
+        	flappyBird.largura, flappyBird.altura,          // Largura e altura do pedaco
+        	flappyBird.x, flappyBird.y,                     // Ponto de referencia no canvas
+        	flappyBird.largura, flappyBird.altura           // Largura e altura do pedaco
+      	);
     }
   }
 
@@ -295,7 +311,7 @@ const telas = {
     */
     desenha(){
       planoDeFundo.desenha();
-      chao.desenha();
+      globais.chao.desenha();
       globais.flappyBird.desenha();
     },
 
@@ -325,6 +341,7 @@ const telas = {
 function loop(){
   telaAtiva.desenha();
   telaAtiva.atualiza();
+  frames = frames + 1;
   requestAnimationFrame(loop);                      // Realiza uma animação por meio de uma função específica
 }
 
