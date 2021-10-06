@@ -1,20 +1,14 @@
 console.log('[DevSoutinho] Flappy Bird');
 
-// Gerencia o som de HIT
-const somHit  = new Audio();
+const somHit  = new Audio();						// Gerencia o som de HIT
 somHit.src    = './Efeitos/efeitos_hit.wav';
 
-// Gerencia os sprites
-const sprites = new Image();
+const sprites = new Image();						// Gerencia os sprites
 sprites.src   = './sprites.png';
 
-// Gerencia os canvas do jogo
-const canvas = document.querySelector('canvas');
-
-// Gerencia o contexto
-const contexto = canvas.getContext('2d');
-
-let frames = 0;
+const canvas = document.querySelector('canvas');	// Gerencia os canvas do jogo
+const contexto = canvas.getContext('2d');			// Gerencia o contexto
+let frames = 0;										// Gerencia os frames do jogo
 
 
 
@@ -22,12 +16,14 @@ let frames = 0;
 // [Plano de Fundo]
 const planoDeFundo =
 {
-	spriteX:  390,
-	spriteY:  0,
-	largura:  275,
-	altura:   204,
-	x:        0,
-	y:        canvas.height - 204,
+	spriteX: 390,			// Posicoes da Sprite do plano de fundo
+	spriteY: 0,
+
+	largura: 275,			// Dimensoes da Sprite
+	altura: 204,
+
+	x: 0,					// Posicao no canvas
+	y: canvas.height - 204,
   
 	/**
 	* FUNCAO     : desenha
@@ -58,18 +54,29 @@ const planoDeFundo =
 };
 
 
-// [Chao]
+/**
+ * FUNCAO     : criaChao
+ * OBJETIVO   : cria um objeto para o Chao
+ * RETORNO    : O objeto chao
+ */
 function criaChao()
 {
 	const chao =
 	{
-		spriteX :0,
-    	spriteY :610,
-    	largura :224,
-    	altura  :112,
-    	x       :0,
-    	y       :canvas.height - 112,
+		
+		spriteX :0,						// Posicao X da sprite do chao
+    	spriteY :610,					// Posicao Y da sprite do chao
 
+		largura :224,					// Largua da Sprite do chao
+    	altura  :112,					// Altura da Sprite do chao
+
+		x       :0,						// Posicao X no canvas
+    	y       :canvas.height - 112,	// Posicao Y no canvas
+
+		/**
+    	* FUNCAO     : criaChao.atualiza
+    	* OBJETIVO   : atualiza os valores relativos ao chao   
+    	*/
 		atualiza()
 		{
 			const movimentoDoChao	= 1;
@@ -78,6 +85,10 @@ function criaChao()
     		chao.x 					= movimentacao % repeteEm;
     	},
 
+		/**
+    	* FUNCAO     : criaChao.desenha
+    	* OBJETIVO   : desenha o chao com base nos valores atuais   
+    	*/
 		desenha()
 		{
 			contexto.drawImage(
@@ -106,19 +117,18 @@ function criaChao()
 /// [mensagemGetReady] Tela de inicio
 const mensagemGetReady =
 {
-	sX: 134,
-	sY: 0,
-	w:  174,
-	h:  152,
-	x:  (canvas.width / 2) - 174 / 2,
-	y:  50,
+	sX: 134,							// Posicao X da sprite da mensagem
+	sY: 0,								// Posicao Y da sprite da mensagem
+	w:  174,							// Largua da Sprite da mensagem
+	h:  152,							// Altura da Sprite do chao
+	x:  (canvas.width / 2) - 174 / 2,	// Posicao X no canvas
+	y:  50,								// Posicao Y no canvas
   
 
 	/**
 	* FUNCAO     : desenha
 	* OBJETIVO   : desenha a mensagem "GET READY" na tela
 	*/
-
 	desenha()
 	{
 		contexto.drawImage(
@@ -140,7 +150,8 @@ const mensagemGetReady =
 /**
  * FUNCAO     : fazColisao
  * OBJETIVO   : Testa se houve colisao
- * PARAMETROS : 
+ * PARAMETROS :
+ * 
  * RETORNO    
  *            : true  (houve colisao)
  *            : false (nao houve colisao)
@@ -148,7 +159,7 @@ const mensagemGetReady =
 function fazColisao(flappyBird, chao){
 
 	const flappyBirdY = flappyBird.y + flappyBird.altura;
-	const chaoY       = chao.y;
+	const chaoY       = chao.y;	
 
 	// Verificando se o FlappyBird esta acima do chao
 	if(flappyBirdY >= chaoY)
@@ -172,30 +183,28 @@ function criaFlappyBird()
 {
 	const flappyBird =
 	{
-		spriteX:    0,
-		spriteY:    0,
-		largura:    33,
-		altura:     24,
-		x:          10,
-		y:          50,
-		gravidade:  0.25,
-		velocidade: 0,
-		pulo:       4.6,
+		spriteX: 0,			// Posicao X da sprite do flappy bird	
+		spriteY: 0,			// Posicao Y da sprite do flappy bird	
+		largura: 33,		// Largura da sprite do flappy bird
+		altura: 24,			// Altura da sprite do flappy bird
+		x: 10,				// Posicao X no canvas
+		y: 50,				// Posicao Y no canvas
+		gravidade: 0.25,	// Gravidade sobre o flappy bird
+		velocidade: 0,		// Velocidade do flappy bird
+		pulo: 4.6,			// Pulo do flappy bird
 
 		movimentos:[
-
 			{spriteX: 0, spriteY: 0},
 			{spriteX: 0, spriteY: 26},
 			{spriteX: 0, spriteY: 52},
 			{spriteX: 0, spriteY: 26},
-
 		],
 
 		frameAtual: 0,
   
 
     	/**
-    	* FUNCAO     : pula
+    	* FUNCAO     : flappybird.pula
     	* OBJETIVO   : fazer o flappyBird pular   
     	*/
 		pula()
@@ -224,10 +233,16 @@ function criaFlappyBird()
 
 		},
 
-	
+		/**
+    	* FUNCAO     : atualizaOFrameAtual
+    	* OBJETIVO   : atualizar o frameatual para ajudar na renderizacao das asas do flappy bird 
+    	*/
 		atualizaOFrameAtual()
 		{
-			if()
+			const intervaloDeFrames = 10;
+			const passouOIntervalo = frames % intervaloDeFrames === 0;
+
+			if(passouOIntervalo)
 			{
 				const baseDoIncremento = 1;
 				const incremento = baseDoIncremento + flappyBird.frameAtual;
@@ -248,7 +263,7 @@ function criaFlappyBird()
 
 			contexto.drawImage(
         		sprites,                                        // Imagem
-        		spriteX, spriteY,         // Ponto de referencia da imagem
+        		spriteX, spriteY,         						// Ponto de referencia da imagem
         		flappyBird.largura, flappyBird.altura,          // Largura e altura do pedaco
         		flappyBird.x, flappyBird.y,                     // Ponto de referencia no canvas
         		flappyBird.largura, flappyBird.altura           // Largura e altura do pedaco
@@ -292,7 +307,7 @@ const telas =
 	{
 	    /** 
 	    * FUNCAO     : inicializa
-	    * OBJETIVO   : Inicializar o Flappy Bird
+	    * OBJETIVO   : Inicializar os dados do jogo
 	    */
 		inicializa()
 		{
@@ -396,6 +411,7 @@ window.addEventListener('click', function()
 	{
 		telaAtiva.click();
 	}
+
 });
 
 mudaParaTela(telas.inicio);
