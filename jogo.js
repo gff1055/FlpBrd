@@ -295,33 +295,53 @@ function criaCanos()
 
 		desenha()
 		{
-			const espacamentoEntreCanos = 40;
-			const yRandom = -150;
+			canos.pares.forEach(function()
+			{
+				const espacamentoEntreCanos = 90;
+				const yRandom = -200;
 
-			const canoCeuX = 220;
-			const canoCeuY = yRandom;
-			
-			// [Cano do Céu]
-			contexto.drawImage(
-				sprites,
-				canos.ceu.spriteX, canos.ceu.spriteY,
-				canos.largura, canos.altura,
-				canoCeuX, canoCeuY,
-				canos.largura, canos.altura,
-			)
+				const canoCeuX = par.x;
+				const canoCeuY = yRandom;
 
-			// [Cano do Chão]
-			const canoChaoX = 220;
-			const canoChaoY = canos.altura + espacamentoEntreCanos + yRandom; 
+				// [Cano do Céu]
+				contexto.drawImage(
+					sprites,
+					canos.ceu.spriteX, canos.ceu.spriteY,
+					canos.largura, canos.altura,
+					canoCeuX, canoCeuY,
+					canos.largura, canos.altura,
+				)
+
+				// [Cano do Chão]
+				const canoChaoX = 220;
+				const canoChaoY = canos.altura + espacamentoEntreCanos + yRandom; 
 			
-			contexto.drawImage(
-				sprites,
-				canos.chao.spriteX, canos.chao.spriteY,
-				canos.largura, canos.altura,
-				canoChaoX, canoChaoY,
-				canos.largura, canos.altura,
-			)
+				contexto.drawImage(
+					sprites,
+					canos.chao.spriteX, canos.chao.spriteY,
+					canos.largura, canos.altura,
+					canoChaoX, canoChaoY,
+					canos.largura, canos.altura,
+				)
+			})
+			
+
 		},
+
+		pares: [{
+			x: 200,
+			y: 100,
+		}],
+
+		atualiza()
+		{
+			const passou100frames = frames % 100 === 0;
+
+			if(passou100frames)
+			{
+
+			}
+		}
 	}
 	
 	return canos;
@@ -392,6 +412,7 @@ const telas =
 		atualiza()
 		{
 			globais.chao.atualiza();
+			globais.canos.atualiza();
 		},
 
 
