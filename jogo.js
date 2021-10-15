@@ -14,8 +14,8 @@ let frames = 0;										// Gerencia os frames do jogo
 
 
 // [Plano de Fundo]
-const planoDeFundo =
-{
+const planoDeFundo = {
+
 	spriteX: 390,			// Posicoes da Sprite do plano de fundo
 	spriteY: 0,
 
@@ -29,8 +29,8 @@ const planoDeFundo =
 	* FUNCAO     : desenha
 	* OBJETIVO   : desenha o plano de fundo na tela
 	*/
-	desenha()
-	{
+	desenha(){
+
 		contexto.fillStyle = '#70c5ce';                 // Cor do ceu
 	    contexto.fillRect(0,0, canvas.width, canvas.height)
 
@@ -59,10 +59,9 @@ const planoDeFundo =
  * OBJETIVO   : cria um objeto para o Chao
  * RETORNO    : O objeto chao
  */
-function criaChao()
-{
-	const chao =
-	{
+function criaChao(){
+
+	const chao = {
 		
 		spriteX :0,						// Posicao X da sprite do chao
     	spriteY :610,					// Posicao Y da sprite do chao
@@ -77,20 +76,21 @@ function criaChao()
     	* FUNCAO     : criaChao.atualiza
     	* OBJETIVO   : atualiza os valores relativos ao chao   
     	*/
-		atualiza()
-		{
+		atualiza(){
+
 			const movimentoDoChao	= 1;
     		const repeteEm			= chao.largura / 2;
     		const movimentacao		= chao.x - movimentoDoChao;
-    		chao.x 					= movimentacao % repeteEm;
+			chao.x 					= movimentacao % repeteEm;
+			
     	},
 
 		/**
     	* FUNCAO     : criaChao.desenha
     	* OBJETIVO   : desenha o chao com base nos valores atuais   
     	*/
-		desenha()
-		{
+		desenha(){
+
 			contexto.drawImage(
         		sprites,
         		chao.spriteX, chao.spriteY,
@@ -115,8 +115,8 @@ function criaChao()
 }
 
 /// [mensagemGetReady] Tela de inicio
-const mensagemGetReady =
-{
+const mensagemGetReady = {
+
 	sX: 134,							// Posicao X da sprite da mensagem
 	sY: 0,								// Posicao Y da sprite da mensagem
 	w:  174,							// Largua da Sprite da mensagem
@@ -129,8 +129,8 @@ const mensagemGetReady =
 	* FUNCAO     : desenha
 	* OBJETIVO   : desenha a mensagem "GET READY" na tela
 	*/
-	desenha()
-	{
+	desenha(){
+
 		contexto.drawImage(
 			sprites,
 			mensagemGetReady.sX, mensagemGetReady.sY,
@@ -138,6 +138,7 @@ const mensagemGetReady =
 			mensagemGetReady.x, mensagemGetReady.y,
 			mensagemGetReady.w, mensagemGetReady.h
 		);
+
 	}
 }
 
@@ -162,8 +163,7 @@ function fazColisao(flappyBird, chao){
 	const chaoY       = chao.y;	
 
 	// Verificando se o FlappyBird esta acima do chao
-	if(flappyBirdY >= chaoY)
-	{
+	if(flappyBirdY >= chaoY){
 		return true;
 	}
 
@@ -179,10 +179,9 @@ function fazColisao(flappyBird, chao){
  * RETORNO    : O objeto flappyBird
  */
 
-function criaFlappyBird()
-{
-	const flappyBird =
-	{
+function criaFlappyBird(){
+
+	const flappyBird = {
 		spriteX: 0,			// Posicao X da sprite do flappy bird	
 		spriteY: 0,			// Posicao Y da sprite do flappy bird	
 		largura: 33,		// Largura da sprite do flappy bird
@@ -207,9 +206,10 @@ function criaFlappyBird()
     	* FUNCAO     : flappybird.pula
     	* OBJETIVO   : fazer o flappyBird pular   
     	*/
-		pula()
-		{
+		pula(){
+
 			flappyBird.velocidade = - flappyBird.pulo;
+
 		},
   
 
@@ -217,15 +217,16 @@ function criaFlappyBird()
     	* FUNCAO     : atualiza
     	* OBJETIVO   : atualizar a posicao do flappyBird   
     	*/
-		atualiza()
-		{
+		atualiza(){
+
     		/* Se houver colisao
     		é executado um som de hit e o jogo vai para a tela de inicio */
-			if(fazColisao(flappyBird, globais.chao))
-			{
+			if(fazColisao(flappyBird, globais.chao)){
+
 				somHit.play();
     			mudaParaTela(telas.inicio);
-    			return;
+				return;
+				
 			}
       
     		flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade;
@@ -237,18 +238,20 @@ function criaFlappyBird()
     	* FUNCAO     : atualizaOFrameAtual
     	* OBJETIVO   : atualizar o frameatual para ajudar na renderizacao das asas do flappy bird 
     	*/
-		atualizaOFrameAtual()
-		{
+		atualizaOFrameAtual(){
+
 			const intervaloDeFrames = 10;
 			const passouOIntervalo = frames % intervaloDeFrames === 0;
 
-			if(passouOIntervalo)
-			{
+			if(passouOIntervalo){
+
 				const baseDoIncremento = 1;
 				const incremento = baseDoIncremento + flappyBird.frameAtual;
 				const baseRepeticao = flappyBird.movimentos.length;
 				flappyBird.frameAtual = incremento % baseRepeticao;
+
 			}
+
 		},
   
 
@@ -256,8 +259,8 @@ function criaFlappyBird()
     	* FUNCAO     : desenha
     	* OBJETIVO   : desenha o flappyBird na tela
     	*/
-		desenha()
-		{
+		desenha(){
+
 			const {spriteX, spriteY} = flappyBird.movimentos[flappyBird.frameAtual];
 			flappyBird.atualizaOFrameAtual();
 
@@ -267,36 +270,48 @@ function criaFlappyBird()
         		flappyBird.largura, flappyBird.altura,          // Largura e altura do pedaco
         		flappyBird.x, flappyBird.y,                     // Ponto de referencia no canvas
         		flappyBird.largura, flappyBird.altura           // Largura e altura do pedaco
-      		);
+			  );
+			  
 		}
+
 	}
 
   	return flappyBird;
 }
 
-function criaCanos()
-{
-	const canos =
-	{
+
+
+
+function criaCanos(){
+
+	const canos = {
+
 		largura: 52,
 		altura: 400,
 
 		chao:{
+
 			spriteX: 0,
 			spriteY: 169,
+
 		},
 
 		ceu:{
+
 			spriteX: 52,
 			spriteY: 169,
+			
 		},
 
 		espaco: 80,
 
-		desenha()
-		{
-			canos.pares.forEach(function()
-			{
+
+
+
+		desenha(){
+
+			canos.pares.forEach(function(par){
+
 				const espacamentoEntreCanos = 90;
 				const yRandom = -200;
 
@@ -313,7 +328,7 @@ function criaCanos()
 				)
 
 				// [Cano do Chão]
-				const canoChaoX = 220;
+				const canoChaoX = par.x;
 				const canoChaoY = canos.altura + espacamentoEntreCanos + yRandom; 
 			
 				contexto.drawImage(
@@ -328,17 +343,16 @@ function criaCanos()
 
 		},
 
-		pares: [{
-			x: 200,
-			y: 100,
-		}],
+		pares: [
+			{x: 200, y: 100},
+			{x: 100, y: 100}
+		],
 
-		atualiza()
-		{
+		atualiza(){
+
 			const passou100frames = frames % 100 === 0;
 
-			if(passou100frames)
-			{
+			if(passou100frames){
 
 			}
 		}
@@ -361,33 +375,35 @@ let telaAtiva = {};
  * OBJETIVO   : Muda a tela atual do jogo
  * PARAMETRO  : A nova tela a ser exibida
 */
-function mudaParaTela(novaTela)
-{
+function mudaParaTela(novaTela){
+
 	telaAtiva = novaTela;
 
-	if(telaAtiva.inicializa)
-	{
+	if(telaAtiva.inicializa){
+
 		telaAtiva.inicializa();
 	}
+
 }
 
 
 
 // Objeto que contem todas as telas do jogo
-const telas = 
-{
+const telas = {
+
 	// Tela de inicio
-	inicio:
-	{
+	inicio:{
+
 	    /** 
 	    * FUNCAO     : inicializa
 	    * OBJETIVO   : Inicializar os componentes do jogo
 	    */
-		inicializa()
-		{
+		inicializa(){
+
 			globais.flappyBird = criaFlappyBird();
 			globais.chao = criaChao();
 			globais.canos = criaCanos();
+
 		},
 
 
@@ -395,8 +411,8 @@ const telas =
     	* FUNCAO     : desenha
     	* OBJETIVO   : Chamar os metodos de desenho de cada elemento da tela de inicio
     	*/
-		desenha()
-		{
+		desenha(){
+
 			planoDeFundo.desenha();
 			globais.chao.desenha();
 			globais.flappyBird.desenha();
@@ -409,10 +425,11 @@ const telas =
 	    * FUNCAO     : atualiza
 	    * OBJETIVO   : Atualizar cada um dos itens na tela de inicio
 	    */
-		atualiza()
-		{
+		atualiza(){
+
 			globais.chao.atualiza();
 			globais.canos.atualiza();
+
 		},
 
 
@@ -420,43 +437,48 @@ const telas =
     	* FUNCAO     : click
     	* OBJETIVO   : Acionar a tela de jogo
     	*/
-		click()
-		{
+		click(){
+
 			mudaParaTela(telas.jogo);
+
 		}
+
 	},
 
 
 	// Tela do jogo em acao
-	jogo:
-	{
+	jogo:{
+
     	/** 
     	* FUNCAO     : desenha
     	* OBJETIVO   : Chamar os metodos de desenho de cada elemento em execucao no jogo
     	*/
-		desenha()
-		{
+		desenha(){
+
 			planoDeFundo.desenha();
 			globais.chao.desenha();
 			globais.flappyBird.desenha();
+
 		},
 
     	/** 
     	* FUNCAO     : click
     	* OBJETIVO   : Acionar o comando para o Flappybird pular
     	*/
-		click()
-		{
+		click(){
+
 			globais.flappyBird.pula();
+
 		},
 
 	    /** 
 	    * FUNCAO     : atualiza
 	    * OBJETIVO   : Atualizar os itens em execucao no jogo
 	    */
-		atualiza()
-		{
+		atualiza(){
+
 			globais.flappyBird.atualiza();
+
 		}
 
 	}
@@ -468,12 +490,13 @@ const telas =
 * FUNCAO     : loop
 * OBJETIVO   : Aciona a tela atual para comecar a ser renderizada infinitamente
 */
-function loop()
-{
+function loop(){
+
 	telaAtiva.desenha();
 	telaAtiva.atualiza();
 	frames = frames + 1;
 	requestAnimationFrame(loop);                      // Realiza uma animação por meio de uma função específica
+
 }
 
 
@@ -481,12 +504,13 @@ function loop()
 * FUNCAO     : anonima
 * OBJETIVO   : Acionar o evento de click do mouse na tela atual
 */
-window.addEventListener('click', function()
-{
+window.addEventListener('click', function(){
+
 	/* Testa se a tela atual tem o metodo click */
-	if(telaAtiva.click)
-	{
+	if(telaAtiva.click){
+
 		telaAtiva.click();
+		
 	}
 
 });
