@@ -313,7 +313,7 @@ function criaCanos(){
 			canos.pares.forEach(function(par){
 
 				const espacamentoEntreCanos = 90;
-				const yRandom = -200;
+				const yRandom = par.y;
 
 				const canoCeuX = par.x;
 				const canoCeuY = yRandom;
@@ -343,18 +343,22 @@ function criaCanos(){
 
 		},
 
-		pares: [
-			{x: 200, y: 100},
-			{x: 100, y: 100}
-		],
+		pares: [],
+
 
 		atualiza(){
-
 			const passou100frames = frames % 100 === 0;
 
 			if(passou100frames){
-
+				canos.pares.push({
+					x: canvas.width,
+					y: -150 * (Math.random() + 1)
+				});
 			}
+
+			canos.pares.forEach(function(par){
+				par.x = par.x - 2;
+			})
 		}
 	}
 	
