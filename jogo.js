@@ -312,53 +312,82 @@ function criaCanos(){
 
 			canos.pares.forEach(function(par){
 
-				const espacamentoEntreCanos = 90;
 				const yRandom = par.y;
-
+				const espacamentoEntreCanos = 90;
+		  
 				const canoCeuX = par.x;
-				const canoCeuY = yRandom;
-
+				const canoCeuY = yRandom; 
+		
 				// [Cano do Céu]
 				contexto.drawImage(
-					sprites,
+					sprites, 
 					canos.ceu.spriteX, canos.ceu.spriteY,
 					canos.largura, canos.altura,
 					canoCeuX, canoCeuY,
 					canos.largura, canos.altura,
 				)
-
+				
 				// [Cano do Chão]
 				const canoChaoX = par.x;
 				const canoChaoY = canos.altura + espacamentoEntreCanos + yRandom; 
-			
 				contexto.drawImage(
-					sprites,
+					sprites, 
 					canos.chao.spriteX, canos.chao.spriteY,
 					canos.largura, canos.altura,
 					canoChaoX, canoChaoY,
 					canos.largura, canos.altura,
 				)
+		
+				par.canoCeu = {
+					x: canoCeuX,
+					y: canos.altura + canoCeuY
+				}
+
+				par.canoChao = {
+					x: canoChaoX,
+					y: canoChaoY
+				}
 			})
 			
 
 		},
 
-		pares: [],
 
+
+		temColisaoComOFlappyBird(par){
+			const cabecaDoFlappy = globais.flappyBird.y;
+			const peDoFlappy = globais.flappyBird.y + globais.flappyBird.altura;
+			if(globais.flappyBird.x >= par.x){
+				console.log("flappy bird invadiu");
+				if(cabecaDoFlappy <= par.canoCeu.y){
+					return true;
+				}
+				if(peDoFlappy >= par.canoChao.y){
+					return true;
+				}
+			}
+			return false;
+		},
+
+		pares: [],
 
 		atualiza(){
 			const passou100frames = frames % 100 === 0;
-
 			if(passou100frames){
 				canos.pares.push({
 					x: canvas.width,
 					y: -150 * (Math.random() + 1)
 				});
-			}
-
+			}			
 			canos.pares.forEach(function(par){
 				par.x = par.x - 2;
-			})
+				if(canos.temColisaoComOFlappyBird(par)){
+					console.log("PERDEU!!!");
+				}
+				if(par.x + canos.largura <= 0){
+					canos.pares.shift();
+				}
+			});
 		}
 	}
 	
@@ -403,11 +432,9 @@ const telas = {
 	    * OBJETIVO   : Inicializar os componentes do jogo
 	    */
 		inicializa(){
-
 			globais.flappyBird = criaFlappyBird();
 			globais.chao = criaChao();
 			globais.canos = criaCanos();
-
 		},
 
 
@@ -416,11 +443,10 @@ const telas = {
     	* OBJETIVO   : Chamar os metodos de desenho de cada elemento da tela de inicio
     	*/
 		desenha(){
-
 			planoDeFundo.desenha();
-			globais.chao.desenha();
 			globais.flappyBird.desenha();
 			globais.canos.desenha();
+			globais.chao.desenha();
 			//mensagemGetReady.desenha();
 		},
 
@@ -430,10 +456,8 @@ const telas = {
 	    * OBJETIVO   : Atualizar cada um dos itens na tela de inicio
 	    */
 		atualiza(){
-
 			globais.chao.atualiza();
 			globais.canos.atualiza();
-
 		},
 
 
@@ -442,9 +466,7 @@ const telas = {
     	* OBJETIVO   : Acionar a tela de jogo
     	*/
 		click(){
-
 			mudaParaTela(telas.jogo);
-
 		}
 
 	},
