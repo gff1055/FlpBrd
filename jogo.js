@@ -1,9 +1,11 @@
 console.log('[DevSoutinho] Flappy Bird');
 
-const somHit  = new Audio();						// Gerencia o som de HIT
+// Gerencia o som de HIT
+const somHit  = new Audio();						
 somHit.src    = './Efeitos/efeitos_hit.wav';
 
-const sprites = new Image();						// Gerencia os sprites
+// Gerencia os sprites
+const sprites = new Image();						
 sprites.src   = './sprites.png';
 
 const canvas = document.querySelector('canvas');	// Gerencia os canvas do jogo
@@ -18,10 +20,8 @@ const planoDeFundo = {
 
 	spriteX: 390,			// Posicoes da Sprite do plano de fundo
 	spriteY: 0,
-
 	largura: 275,			// Dimensoes da Sprite
 	altura: 204,
-
 	x: 0,					// Posicao no canvas
 	y: canvas.height - 204,
   
@@ -30,10 +30,8 @@ const planoDeFundo = {
 	* OBJETIVO   : desenha o plano de fundo na tela
 	*/
 	desenha(){
-
 		contexto.fillStyle = '#70c5ce';                 // Cor do ceu
 	    contexto.fillRect(0,0, canvas.width, canvas.height)
-
 		contexto.drawImage(
 			sprites,
 	    	planoDeFundo.spriteX, planoDeFundo.spriteY,
@@ -41,7 +39,6 @@ const planoDeFundo = {
 	    	planoDeFundo.x, planoDeFundo.y,
 	    	planoDeFundo.largura, planoDeFundo.altura,
 	    );
-
 	    contexto.drawImage(
 	    	sprites,
 	    	planoDeFundo.spriteX, planoDeFundo.spriteY,
@@ -49,7 +46,6 @@ const planoDeFundo = {
 	    	(planoDeFundo.x + planoDeFundo.largura), planoDeFundo.y,
 	    	planoDeFundo.largura, planoDeFundo.altura,
 	    );
-
 	},
 };
 
@@ -60,37 +56,32 @@ const planoDeFundo = {
  * RETORNO    : O objeto chao
  */
 function criaChao(){
-
 	const chao = {
-		
 		spriteX :0,						// Posicao X da sprite do chao
     	spriteY :610,					// Posicao Y da sprite do chao
-
 		largura :224,					// Largua da Sprite do chao
     	altura  :112,					// Altura da Sprite do chao
-
 		x       :0,						// Posicao X no canvas
     	y       :canvas.height - 112,	// Posicao Y no canvas
+
 
 		/**
     	* FUNCAO     : criaChao.atualiza
     	* OBJETIVO   : atualiza os valores relativos ao chao   
     	*/
 		atualiza(){
-
 			const movimentoDoChao	= 1;
     		const repeteEm			= chao.largura / 2;
     		const movimentacao		= chao.x - movimentoDoChao;
 			chao.x 					= movimentacao % repeteEm;
-			
     	},
+
 
 		/**
     	* FUNCAO     : criaChao.desenha
     	* OBJETIVO   : desenha o chao com base nos valores atuais   
     	*/
 		desenha(){
-
 			contexto.drawImage(
         		sprites,
         		chao.spriteX, chao.spriteY,
@@ -98,7 +89,6 @@ function criaChao(){
         		chao.x, chao.y,
         		chao.largura, chao.altura,
       		);
-  
       		contexto.drawImage(
         		sprites,
         		chao.spriteX, chao.spriteY,
@@ -106,11 +96,8 @@ function criaChao(){
         		(chao.x + chao.largura), chao.y,
         		chao.largura, chao.altura,
 			);
-			  
 		},
-		
   	};
-
 	return chao;
 }
 
@@ -130,7 +117,6 @@ const mensagemGetReady = {
 	* OBJETIVO   : desenha a mensagem "GET READY" na tela
 	*/
 	desenha(){
-
 		contexto.drawImage(
 			sprites,
 			mensagemGetReady.sX, mensagemGetReady.sY,
@@ -138,7 +124,6 @@ const mensagemGetReady = {
 			mensagemGetReady.x, mensagemGetReady.y,
 			mensagemGetReady.w, mensagemGetReady.h
 		);
-
 	}
 }
 
@@ -158,7 +143,6 @@ const mensagemGetReady = {
  *            : false (nao houve colisao)
  */
 function fazColisao(flappyBird, chao){
-
 	const flappyBirdY = flappyBird.y + flappyBird.altura;
 	const chaoY       = chao.y;	
 
@@ -166,7 +150,6 @@ function fazColisao(flappyBird, chao){
 	if(flappyBirdY >= chaoY){
 		return true;
 	}
-
 	return false;
 }
 
@@ -180,7 +163,6 @@ function fazColisao(flappyBird, chao){
  */
 
 function criaFlappyBird(){
-
 	const flappyBird = {
 		spriteX: 0,			// Posicao X da sprite do flappy bird	
 		spriteY: 0,			// Posicao Y da sprite do flappy bird	
@@ -207,9 +189,7 @@ function criaFlappyBird(){
     	* OBJETIVO   : fazer o flappyBird pular   
     	*/
 		pula(){
-
 			flappyBird.velocidade = - flappyBird.pulo;
-
 		},
   
 
@@ -219,19 +199,16 @@ function criaFlappyBird(){
     	*/
 		atualiza(){
 
-    		/* Se houver colisao
+			/* Se houver colisao
     		é executado um som de hit e o jogo vai para a tela de inicio */
 			if(fazColisao(flappyBird, globais.chao)){
-
 				somHit.play();
     			mudaParaTela(telas.inicio);
 				return;
-				
 			}
-      
-    		flappyBird.velocidade = flappyBird.velocidade + flappyBird.gravidade;
-    		flappyBird.y          = flappyBird.y + flappyBird.velocidade;
 
+			flappyBird.velocidade = flappyBird.velocidade + (flappyBird.gravidade/2);
+    		flappyBird.y          = flappyBird.y + flappyBird.velocidade;
 		},
 
 		/**
@@ -239,19 +216,18 @@ function criaFlappyBird(){
     	* OBJETIVO   : atualizar o frameatual para ajudar na renderizacao das asas do flappy bird 
     	*/
 		atualizaOFrameAtual(){
-
 			const intervaloDeFrames = 10;
 			const passouOIntervalo = frames % intervaloDeFrames === 0;
 
+			// Se passar o intervalo o flappy bird bate a asa...
 			if(passouOIntervalo){
-
 				const baseDoIncremento = 1;
 				const incremento = baseDoIncremento + flappyBird.frameAtual;
 				const baseRepeticao = flappyBird.movimentos.length;
+
+				// manipulando o bater de asas...
 				flappyBird.frameAtual = incremento % baseRepeticao;
-
 			}
-
 		},
   
 
@@ -260,61 +236,57 @@ function criaFlappyBird(){
     	* OBJETIVO   : desenha o flappyBird na tela
     	*/
 		desenha(){
-
 			const {spriteX, spriteY} = flappyBird.movimentos[flappyBird.frameAtual];
 			flappyBird.atualizaOFrameAtual();
-
 			contexto.drawImage(
         		sprites,                                        // Imagem
         		spriteX, spriteY,         						// Ponto de referencia da imagem
         		flappyBird.largura, flappyBird.altura,          // Largura e altura do pedaco
         		flappyBird.x, flappyBird.y,                     // Ponto de referencia no canvas
         		flappyBird.largura, flappyBird.altura           // Largura e altura do pedaco
-			  );
-			  
+			);  
 		}
-
 	}
-
   	return flappyBird;
 }
 
 
 
-
+/**
+    	* FUNCAO     : criaCanos
+    	* OBJETIVO   : cria os diversos canos na tela
+*/
 function criaCanos(){
-
 	const canos = {
 
+		/**Dimensões do cano */
 		largura: 52,
 		altura: 400,
 
+		/** Valores dos sprites dos canos */
 		chao:{
-
 			spriteX: 0,
 			spriteY: 169,
-
 		},
-
 		ceu:{
-
 			spriteX: 52,
 			spriteY: 169,
-			
 		},
 
 		espaco: 80,
 
 
-
-
+		/**
+    	* FUNCAO     : desenha
+    	* OBJETIVO   : desenha os canos na tela
+		*/
 		desenha(){
 
+			/** Desenha os pares da canos*/
 			canos.pares.forEach(function(par){
 
 				const yRandom = par.y;
-				const espacamentoEntreCanos = 90;
-		  
+				const espacamentoEntreCanos = 180;
 				const canoCeuX = par.x;
 				const canoCeuY = yRandom; 
 		
@@ -330,6 +302,7 @@ function criaCanos(){
 				// [Cano do Chão]
 				const canoChaoX = par.x;
 				const canoChaoY = canos.altura + espacamentoEntreCanos + yRandom; 
+				
 				contexto.drawImage(
 					sprites, 
 					canos.chao.spriteX, canos.chao.spriteY,
@@ -338,6 +311,7 @@ function criaCanos(){
 					canos.largura, canos.altura,
 				)
 		
+				/* pares de canos*/
 				par.canoCeu = {
 					x: canoCeuX,
 					y: canos.altura + canoCeuY
@@ -355,8 +329,10 @@ function criaCanos(){
 
 
 		temColisaoComOFlappyBird(par){
+
 			const cabecaDoFlappy = globais.flappyBird.y;
 			const peDoFlappy = globais.flappyBird.y + globais.flappyBird.altura;
+			
 			if(globais.flappyBird.x >= par.x){
 				console.log("flappy bird invadiu");
 				if(cabecaDoFlappy <= par.canoCeu.y){
@@ -372,7 +348,9 @@ function criaCanos(){
 		pares: [],
 
 		atualiza(){
+			
 			const passou100frames = frames % 100 === 0;
+			
 			if(passou100frames){
 				canos.pares.push({
 					x: canvas.width,
@@ -382,7 +360,7 @@ function criaCanos(){
 			canos.pares.forEach(function(par){
 				par.x = par.x - 2;
 				if(canos.temColisaoComOFlappyBird(par)){
-					console.log("PERDEU!!!");
+					mudaParaTela(telas.inicio);
 				}
 				if(par.x + canos.largura <= 0){
 					canos.pares.shift();
@@ -413,12 +391,37 @@ function mudaParaTela(novaTela){
 	telaAtiva = novaTela;
 
 	if(telaAtiva.inicializa){
-
 		telaAtiva.inicializa();
 	}
 
 }
 
+
+function criaPlacar(){
+	const placar = {
+
+		pontuacao: 0,
+
+		desenha(){
+			contexto.font = '35px serif';
+			contexto.textAlign = 'right';
+			contexto.fillStyle = 'white';
+			contexto.fillText(`Hello world ${placar.pontuacao}`, canvas.width-10, 35);
+			placar.pontuacao;
+		},
+
+		atualiza(){
+			const intervalo_de_frames = 100;
+			const passou_o_intervalo = frames % intervalo_de_frames === 0;
+			
+			if(passou_o_intervalo){
+				placar.pontuacao = placar.pontuacao + 1;
+		}
+		}
+
+	}
+	return placar;
+}
 
 
 // Objeto que contem todas as telas do jogo
@@ -445,9 +448,9 @@ const telas = {
 		desenha(){
 			planoDeFundo.desenha();
 			globais.flappyBird.desenha();
-			globais.canos.desenha();
+			
 			globais.chao.desenha();
-			//mensagemGetReady.desenha();
+			mensagemGetReady.desenha();
 		},
 
 
@@ -457,7 +460,6 @@ const telas = {
 	    */
 		atualiza(){
 			globais.chao.atualiza();
-			globais.canos.atualiza();
 		},
 
 
@@ -475,16 +477,21 @@ const telas = {
 	// Tela do jogo em acao
 	jogo:{
 
+
+		inicializa(){
+			globais.placar = criaPlacar();
+		},
+
     	/** 
     	* FUNCAO     : desenha
     	* OBJETIVO   : Chamar os metodos de desenho de cada elemento em execucao no jogo
     	*/
 		desenha(){
-
 			planoDeFundo.desenha();
+			globais.canos.desenha();
 			globais.chao.desenha();
 			globais.flappyBird.desenha();
-
+			globais.placar.desenha();
 		},
 
     	/** 
@@ -492,9 +499,7 @@ const telas = {
     	* OBJETIVO   : Acionar o comando para o Flappybird pular
     	*/
 		click(){
-
 			globais.flappyBird.pula();
-
 		},
 
 	    /** 
@@ -502,9 +507,10 @@ const telas = {
 	    * OBJETIVO   : Atualizar os itens em execucao no jogo
 	    */
 		atualiza(){
-
+			globais.canos.atualiza();
+			globais.chao.atualiza();
 			globais.flappyBird.atualiza();
-
+			globais.placar.atualiza();
 		}
 
 	}
@@ -517,12 +523,10 @@ const telas = {
 * OBJETIVO   : Aciona a tela atual para comecar a ser renderizada infinitamente
 */
 function loop(){
-
 	telaAtiva.desenha();
 	telaAtiva.atualiza();
 	frames = frames + 1;
 	requestAnimationFrame(loop);                      // Realiza uma animação por meio de uma função específica
-
 }
 
 
@@ -534,9 +538,7 @@ window.addEventListener('click', function(){
 
 	/* Testa se a tela atual tem o metodo click */
 	if(telaAtiva.click){
-
 		telaAtiva.click();
-		
 	}
 
 });
