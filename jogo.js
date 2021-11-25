@@ -128,6 +128,33 @@ const mensagemGetReady = {
 }
 
 
+/// [mensagemGameOver] Tela de inicio
+const mensagemGameOver = {
+
+	sX: 134,							// Posicao X da sprite da mensagem
+	sY: 153,								// Posicao Y da sprite da mensagem
+	w:  226,							// Largua da Sprite da mensagem
+	h:  200,							// Altura da Sprite do chao
+	x:  (canvas.width / 2) - 226 / 2,	// Posicao X no canvas
+	y:  50,								// Posicao Y no canvas
+  
+
+	/**
+	* FUNCAO     : desenha
+	* OBJETIVO   : desenha a mensagem "GET READY" na tela
+	*/
+	desenha(){
+		contexto.drawImage(
+			sprites,
+			mensagemGameOver.sX, mensagemGameOver.sY,
+			mensagemGameOver.w, mensagemGameOver.h,
+			mensagemGameOver.x, mensagemGameOver.y,
+			mensagemGameOver.w, mensagemGameOver.h
+		);
+	}
+}
+
+
 
 
 
@@ -170,9 +197,9 @@ function criaFlappyBird(){
 		altura: 24,			// Altura da sprite do flappy bird
 		x: 10,				// Posicao X no canvas
 		y: 50,				// Posicao Y no canvas
-		gravidade: 0.25,	// Gravidade sobre o flappy bird
+		gravidade: 0.12,	// Gravidade sobre o flappy bird
 		velocidade: 0,		// Velocidade do flappy bird
-		pulo: 4.6,			// Pulo do flappy bird
+		pulo: 2,			// Pulo do flappy bird
 
 		movimentos:[
 			{spriteX: 0, spriteY: 0},
@@ -203,7 +230,7 @@ function criaFlappyBird(){
     		é executado um som de hit e o jogo vai para a tela de inicio */
 			if(fazColisao(flappyBird, globais.chao)){
 				somHit.play();
-    			mudaParaTela(telas.inicio);
+    			mudaParaTela(telas.gameOver);
 				return;
 			}
 
@@ -275,6 +302,8 @@ function criaCanos(){
 
 		espaco: 80,
 
+		espacamentoEntreCanos: 200,
+
 
 		/**
     	* FUNCAO     : desenha
@@ -286,7 +315,7 @@ function criaCanos(){
 			canos.pares.forEach(function(par){
 
 				const yRandom = par.y;
-				const espacamentoEntreCanos = 180;
+				//const espacamentoEntreCanos = 200;
 				const canoCeuX = par.x;
 				const canoCeuY = yRandom; 
 		
@@ -301,7 +330,7 @@ function criaCanos(){
 				
 				// [Cano do Chão]
 				const canoChaoX = par.x;
-				const canoChaoY = canos.altura + espacamentoEntreCanos + yRandom; 
+				const canoChaoY = canos.altura + canos.espacamentoEntreCanos + yRandom; 
 				
 				contexto.drawImage(
 					sprites, 
@@ -333,7 +362,7 @@ function criaCanos(){
 			const cabecaDoFlappy = globais.flappyBird.y;
 			const peDoFlappy = globais.flappyBird.y + globais.flappyBird.altura;
 			
-			if(globais.flappyBird.x >= par.x){
+			if(globais.flappyBird.x + globais.flappyBird.largura >= par.x){
 				console.log("flappy bird invadiu");
 				if(cabecaDoFlappy <= par.canoCeu.y){
 					return true;
@@ -356,11 +385,13 @@ function criaCanos(){
 					x: canvas.width,
 					y: -150 * (Math.random() + 1)
 				});
+				canos.espacamentoEntreCanos = canos.espacamentoEntreCanos - 2;
 			}			
 			canos.pares.forEach(function(par){
 				par.x = par.x - 2;
 				if(canos.temColisaoComOFlappyBird(par)){
-					mudaParaTela(telas.inicio);
+					mudaParaTela(telas.gameOver);
+					somHit.play();
 				}
 				if(par.x + canos.largura <= 0){
 					canos.pares.shift();
@@ -396,27 +427,31 @@ function mudaParaTela(novaTela){
 
 }
 
-
+/** 
+ * FUNCAO	: criaPlacar
+ * OBJETIVO	: Mostra a pontuacao do jogador
+ * RETORNO	: informações do placar
+*/
 function criaPlacar(){
 	const placar = {
 
-		pontuacao: 0,
+			pontuacao: 0,
 
-		desenha(){
-			contexto.font = '35px serif';
-			contexto.textAlign = 'right';
-			contexto.fillStyle = 'white';
-			contexto.fillText(`Hello world ${placar.pontuacao}`, canvas.width-10, 35);
-			placar.pontuacao;
-		},
+			desenha(){
+				contexto.font = '35px serif';
+				contexto.textAlign = 'right';
+				contexto.fillStyle = 'white';
+				contexto.fillText(`${placar.pontuacao} pts`, canvas.width-10, 35);
+				//placar.pontuacao;
+			},
 
-		atualiza(){
-			const intervalo_de_frames = 100;
-			const passou_o_intervalo = frames % intervalo_de_frames === 0;
+			atualiza(){
+				const intervalo_de_frames = 100;
+				const passou_o_intervalo = frames % intervalo_de_frames === 0;
 			
-			if(passou_o_intervalo){
-				placar.pontuacao = placar.pontuacao + 1;
-		}
+				if(passou_o_intervalo){
+					placar.pontuacao = placar.pontuacao + 1;
+			}
 		}
 
 	}
@@ -512,6 +547,23 @@ const telas = {
 			globais.flappyBird.atualiza();
 			globais.placar.atualiza();
 		}
+
+	},
+
+	gameOver:{
+		desenha(){
+			mensagemGameOver.desenha();
+
+		},
+
+		atualiza(){
+
+		},
+
+		click(){
+			mudaParaTela(telas.inicio);
+		}
+
 
 	}
 
