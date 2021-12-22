@@ -134,10 +134,9 @@ const mensagemGameOver = {
 	sX: 134,							// Posicao X da sprite da mensagem
 	sY: 153,								// Posicao Y da sprite da mensagem
 	w:  226,							// Largua da Sprite da mensagem
-	h:  200,							// Altura da Sprite do chao
+	h:  200,							// Altura da Sprite da mensagem
 	x:  (canvas.width / 2) - 226 / 2,	// Posicao X no canvas
 	y:  50,								// Posicao Y no canvas
-  
 
 	/**
 	* FUNCAO     : desenha
@@ -150,6 +149,82 @@ const mensagemGameOver = {
 			mensagemGameOver.w, mensagemGameOver.h,
 			mensagemGameOver.x, mensagemGameOver.y,
 			mensagemGameOver.w, mensagemGameOver.h
+		);
+	}
+}
+
+/* Pontuacao das medalhas */
+ranking = {
+	normalSpriteX: 0,
+	normalSpriteY: 77,
+	ouroSpriteX: 0,
+	ouroSpriteY: 123,
+	prataSpriteX: 48,
+	prataSpriteY: 77,
+	bronzeSpriteX: 48,
+	bronzeSpriteY: 123,
+}
+
+
+/* Objeto para definir e carregar a medalha */
+medalha = {
+	sX: ranking.normalSpriteX,							// Posicao X da sprite da mensagem
+	sY: ranking.normalSpriteY,								// Posicao Y da sprite da mensagem
+	w:  45,							// Largua da Sprite da mensagem
+	h:  46,							// Altura da Sprite do chao
+	x:  75,	// Posicao X no canvas
+	y:  135,								// Posicao Y no canvas
+
+	//prata
+	//sX: 48,							// Posicao X da sprite da mensagem
+	//sY: 77,								// Posicao Y da sprite da mensagem
+  
+	//ouro
+	//sX: 0,							// Posicao X da sprite da mensagem
+	//sY: 123,								// Posicao Y da sprite da mensagem
+
+	//bronze
+	//sX: 48,							// Posicao X da sprite da mensagem
+	//sY: 123,								// Posicao Y da sprite da mensagem
+
+	inicializa(){
+		this.sX = ranking.normalSpriteX;							// Posicao X da sprite da mensagem
+		this.sY = ranking.normalSpriteY;								// Posicao Y da sprite da mensagem
+		this.w = 45;							// Largua da Sprite da mensagem
+		this.h = 46;							// Altura da Sprite do chao
+		this.x = 75;	// Posicao X no canvas
+		this.y = 135;
+	},
+	
+	loadType(pPontuacao){
+		if(pPontuacao>=5 && pPontuacao<10){
+			medalha.sX = ranking.bronzeSpriteX;
+			medalha.sY = ranking.bronzeSpriteY;
+		}
+		else if(pPontuacao>=10 && pPontuacao<15){
+			medalha.sX = ranking.prataSpriteX;
+			medalha.sY = ranking.prataSpriteY;
+		}
+		else if(pPontuacao>=15){
+			medalha.sX = ranking.ouroSpriteX;
+			medalha.sY = ranking.ouroSpriteY;
+		}
+	},
+	
+	/**
+	* FUNCAO     : desenha
+	* OBJETIVO   : desenha a mensagem "GET READY" na tela
+	*/
+	
+	desenha(){
+		//console.log(this);
+		medalha.loadType(globais.placar.pontuacao);
+		contexto.drawImage(
+			sprites,
+			medalha.sX, medalha.sY,
+			medalha.w, medalha.h,
+			medalha.x, medalha.y,
+			medalha.w, medalha.h
 		);
 	}
 }
@@ -374,7 +449,9 @@ function criaCanos(){
 			return false;
 		},
 
+
 		pares: [],
+
 
 		atualiza(){
 			
@@ -437,6 +514,10 @@ function criaPlacar(){
 
 			pontuacao: 0,
 
+			inicializa(){
+				medalha.inicializa();	
+			},
+
 			desenha(){
 				contexto.font = '35px serif';
 				contexto.textAlign = 'right';
@@ -473,6 +554,9 @@ const telas = {
 			globais.flappyBird = criaFlappyBird();
 			globais.chao = criaChao();
 			globais.canos = criaCanos();
+
+			globais.placar = criaPlacar();
+			globais.placar.inicializa();
 		},
 
 
@@ -512,9 +596,8 @@ const telas = {
 	// Tela do jogo em acao
 	jogo:{
 
-
 		inicializa(){
-			globais.placar = criaPlacar();
+			
 		},
 
     	/** 
@@ -553,7 +636,7 @@ const telas = {
 	gameOver:{
 		desenha(){
 			mensagemGameOver.desenha();
-
+			medalha.desenha();
 		},
 
 		atualiza(){
@@ -561,7 +644,11 @@ const telas = {
 		},
 
 		click(){
-			mudaParaTela(telas.inicio);
+			
+			setTimeout(function(){
+				mudaParaTela(telas.inicio);
+				console.log("FUI EXECUTADDDO");
+			}, 3000);
 		}
 
 
