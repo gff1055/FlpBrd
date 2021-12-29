@@ -197,15 +197,15 @@ medalha = {
 	},
 	
 	loadType(pPontuacao){
-		if(pPontuacao>=5 && pPontuacao<10){
+		if(pPontuacao>=16 && pPontuacao<30){
 			medalha.sX = ranking.bronzeSpriteX;
 			medalha.sY = ranking.bronzeSpriteY;
 		}
-		else if(pPontuacao>=10 && pPontuacao<15){
+		else if(pPontuacao>=31 && pPontuacao<45){
 			medalha.sX = ranking.prataSpriteX;
 			medalha.sY = ranking.prataSpriteY;
 		}
-		else if(pPontuacao>=15){
+		else if(pPontuacao>=45){
 			medalha.sX = ranking.ouroSpriteX;
 			medalha.sY = ranking.ouroSpriteY;
 		}
