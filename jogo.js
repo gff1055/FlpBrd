@@ -196,6 +196,13 @@ medalha = {
 		this.y = 135;
 	},
 	
+
+	/*
+	FUNCAO: loadType
+	OBJETIVO: Carregar os dados da medalha que o player conseguiu
+	PARAMETRO: A pontuacao do player
+	*/
+
 	loadType(pPontuacao){
 		if(pPontuacao>=16 && pPontuacao<30){
 			medalha.sX = ranking.bronzeSpriteX;
@@ -211,6 +218,7 @@ medalha = {
 		}
 	},
 	
+
 	/**
 	* FUNCAO     : desenha
 	* OBJETIVO   : desenha a mensagem "GET READY" na tela
@@ -519,7 +527,7 @@ function criaPlacar(){
 			},
 
 			desenha(){
-				contexto.font = '35px serif';
+				contexto.font = "24px 'Press Start 2P'";
 				contexto.textAlign = 'right';
 				contexto.fillStyle = 'white';
 				contexto.fillText(`${placar.pontuacao} pts`, canvas.width-10, 35);
@@ -644,11 +652,10 @@ const telas = {
 		},
 
 		click(){
-			
 			setTimeout(function(){
 				mudaParaTela(telas.inicio);
 				console.log("FUI EXECUTADDDO");
-			}, 3000);
+			}, 1000);
 		}
 
 
