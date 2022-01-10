@@ -12,6 +12,12 @@ const canvas = document.querySelector('canvas');	// Gerencia os canvas do jogo
 const contexto = canvas.getContext('2d');			// Gerencia o contexto
 let frames = 0;										// Gerencia os frames do jogo
 
+record = localStorage.getItem("record");
+
+if(record == null)                          // Houve algum registro de recorde anterior?
+	record = 0; 
+
+
 
 
 
@@ -137,6 +143,8 @@ const mensagemGameOver = {
 	h:  200,							// Altura da Sprite da mensagem
 	x:  (canvas.width / 2) - 226 / 2,	// Posicao X no canvas
 	y:  50,								// Posicao Y no canvas
+	scoreX: 250,
+	scoreY: 145,
 
 	/**
 	* FUNCAO     : desenha
@@ -150,6 +158,16 @@ const mensagemGameOver = {
 			mensagemGameOver.x, mensagemGameOver.y,
 			mensagemGameOver.w, mensagemGameOver.h
 		);
+		contexto.font = "16px 'Press Start 2P'";
+		contexto.textAlign = 'right';
+		contexto.fillStyle = 'green';
+		contexto.fillText(`${globais.placar.pontuacao}`, mensagemGameOver.scoreX, mensagemGameOver.scoreY);
+
+
+		contexto.font = "16px 'Press Start 2P'";
+		contexto.textAlign = 'right';
+		contexto.fillStyle = 'green';
+		contexto.fillText(`${record}`, mensagemGameOver.scoreX, mensagemGameOver.scoreY+40);
 	}
 }
 
@@ -620,6 +638,7 @@ const telas = {
 			globais.placar.desenha();
 		},
 
+
     	/** 
     	* FUNCAO     : click
     	* OBJETIVO   : Acionar o comando para o Flappybird pular
@@ -627,6 +646,7 @@ const telas = {
 		click(){
 			globais.flappyBird.pula();
 		},
+
 
 	    /** 
 	    * FUNCAO     : atualiza
@@ -648,7 +668,10 @@ const telas = {
 		},
 
 		atualiza(){
-
+			if(globais.placar.pontuacao > record){                // Caso o usuario tenha batido o record
+				localStorage.setItem("record", globais.placar.pontuacao); // Guardando no LocalStorage o novo recorde
+				record = globais.placar.pontuacao;                // variavel 'record' recebe a nova pontuação
+			}
 		},
 
 		click(){
